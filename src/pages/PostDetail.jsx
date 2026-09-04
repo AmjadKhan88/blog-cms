@@ -54,11 +54,12 @@ export default function PostDetail() {
     );
   }
 
+
   const { title, coverImage, content, author, category, date, readingTime } = post.fields;
   const coverUrl = coverImage?.fields?.file?.url;
 
   return (
-    <article className="px-6 py-14">
+    <article className="px-6 py-14 max-w-5xl mx-auto">
       {/* Category badge */}
       {category?.fields?.title && (
         <Link
@@ -113,7 +114,7 @@ export default function PostDetail() {
       )}
 
       {/* Rich text body */}
-      <div className="max-w-2xl">
+      <div className="max-w-4xl">
         {content ? (
           documentToReactComponents(content, richTextOptions)
         ) : (

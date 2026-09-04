@@ -1,19 +1,19 @@
 import { Link } from "react-router-dom";
 import { optimizeImage } from "../lib/contentful";
 
-export default function PostCard({ post }) {
+export default function PostCard({ post}) {
   const { title, slug, excerpt, coverImage, category, readingTime, date } = post.fields;
   const imgUrl = coverImage?.fields?.file?.url;
 
   return (
     <Link
       to={`/blog/${slug}`}
-      className="group flex flex-col"
+      className={`group flex flex-col`}
     >
-      <div className="aspect-[4/3] overflow-hidden bg-stone-light mb-3">
+      <div className={`aspect-[4/3] overflow-hidden bg-stone-light mb-3`}>
         {imgUrl ? (
           <img
-            src={optimizeImage(imgUrl, { width: 500 })}
+            src={optimizeImage(imgUrl, { max: 500 })}
             alt={coverImage?.fields?.title || title}
             loading="lazy"
             className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
@@ -36,7 +36,7 @@ export default function PostCard({ post }) {
         </Link>
       )}
 
-      <h3 className="font-semibold text-lg leading-snug mb-1.5 group-hover:text-clay transition-colors">
+      <h3 className="font-semibold sm:text-lg leading-snug mb-1.5 group-hover:text-clay transition-colors">
         {title}
       </h3>
 

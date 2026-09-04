@@ -7,6 +7,7 @@ export default function Home() {
   const [featured, setFeatured] = useState(null);
   const [posts, setPosts] = useState([]);
   const [status, setStatus] = useState("loading");
+  const [featuredPosts, setFeaturedPosts] = useState([]);
 
   useEffect(() => {
     async function load() {
@@ -15,8 +16,9 @@ export default function Home() {
           getFeaturedPost(),
           getAllPosts(),
         ]);
-        setFeatured(featuredPost);
+        setFeatured(featuredPost[0]);
         setPosts(allPosts);
+        setFeaturedPosts(featuredPost);
         setStatus("done");
       } catch (err) {
         console.error("Failed to load home page content:", err);
@@ -47,19 +49,17 @@ export default function Home() {
     );
   }
 
-  // Latest posts grid excludes the featured post so it isn't shown twice
   const latestPosts = featured
     ? posts.filter((p) => p.sys.id !== featured.sys.id)
     : posts;
 
   return (
     <div className="px-6">
-      {/* Hero */}
       <section className="py-14 sm:py-20 max-w-2xl">
         <p className="text-clay text-sm font-medium uppercase tracking-widest mb-3">
           Notes on building things
         </p>
-        <h1 className="text-4xl sm:text-5xl font-semibold leading-tight mb-4">
+        <h1 className="text-2xl sm:text-5xl font-semibold leading-tight mb-4">
           Long-form thoughts on code, product, and shipping.
         </h1>
         <p className="text-stone text-lg">
@@ -96,7 +96,7 @@ export default function Home() {
                   {featured.fields.category.fields.title}
                 </span>
               )}
-              <h2 className="text-2xl sm:text-3xl font-semibold mt-2 mb-3 group-hover:text-clay transition-colors">
+              <h2 className="text-lg sm:text-3xl font-semibold mt-2 mb-3 group-hover:text-clay transition-colors">
                 {featured.fields.title}
               </h2>
               <p className="text-stone mb-3">{featured.fields.excerpt}</p>
@@ -108,15 +108,29 @@ export default function Home() {
         </section>
       )}
 
-      {/* Latest posts grid */}
-      <section className="pb-20">
-        <p className="text-xs font-medium uppercase tracking-widest text-stone mb-6">
-          Latest posts
-        </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-          {latestPosts.map((post) => (
-            <PostCard key={post.sys.id} post={post} />
-          ))}
+      {/* posts */}
+      <section className="pb-20 sm:gap-10 grid grid-cols-12">
+
+        <div className="col-span-12 lg:col-span-9">
+          <p className="text-xs font-medium uppercase tracking-widest text-stone mb-6">
+            Latest posts
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+            {latestPosts.map((post) => (
+              <PostCard key={post.sys.id} post={post} />
+            ))}
+          </div>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3 bg-white p-5">
+          <p className="text-xs font-medium uppercase tracking-widest text-stone mb-6">
+            Featured posts
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-x-6 gap-y-10">
+            {featuredPosts.slice(1,).map((post,index) => (
+              <PostCard key={post.sys.id}   post={post} />
+            ))}
+          </div>
         </div>
       </section>
     </div>

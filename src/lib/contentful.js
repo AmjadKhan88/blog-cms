@@ -5,13 +5,13 @@ const client = createClient({
   accessToken: import.meta.env.VITE_CONTENTFUL_ACCESS_TOKEN,
 });
 
-// ---- POSTS ----
-
+// posts
 export async function getAllPosts() {
   const res = await client.getEntries({
     content_type: "post",
     order: "-fields.date",
     include: 2,
+    limit: 10,
   });
   return res.items;
 }
@@ -21,10 +21,10 @@ export async function getFeaturedPost() {
     content_type: "post",
     "fields.featuredFlag": true,
     order: "-fields.date",
-    limit: 1,
+    limit: 4,
     include: 2,
   });
-  return res.items[0] || null;
+  return res.items || null;
 }
 
 export async function getPostBySlug(slug) {
@@ -60,8 +60,7 @@ export async function searchPostsByTitle(query) {
   return res.items;
 }
 
-// ---- CATEGORIES ----
-
+// category
 export async function getAllCategories() {
   const res = await client.getEntries({
     content_type: "category",
@@ -78,8 +77,7 @@ export async function getCategoryBySlug(slug) {
   return res.items[0] || null;
 }
 
-// ---- AUTHORS ----
-
+// author
 export async function getAuthorBySlug(slug) {
   const res = await client.getEntries({
     content_type: "author",
@@ -89,16 +87,14 @@ export async function getAuthorBySlug(slug) {
   return res.items[0] || null;
 }
 
-// ---- IMAGE HELPER ----
-
+// image optimization
 export function optimizeImage(url, { width = 800, quality = 75 } = {}) {
   if (!url) return "";
   const base = url.startsWith("//") ? `https:${url}` : url;
   return `${base}?w=${width}&q=${quality}&fm=webp`;
 }
 
-// ---- COMBINED FILTER (search + category together) ----
-
+// search and category 
 export async function getFilteredPosts({ query = "", categoryId = "" } = {}) {
   const filters = {
     content_type: "post",
@@ -113,15 +109,14 @@ export async function getFilteredPosts({ query = "", categoryId = "" } = {}) {
   return res.items;
 }
 
-// ---- RELATED POSTS ----
-
+// related posts
 export async function getRelatedPosts(categoryId, excludeSlug, limit = 3) {
   if (!categoryId) return [];
 
   const res = await client.getEntries({
     content_type: "post",
     "fields.category.sys.id": categoryId,
-    "fields.slug[ne]": excludeSlug, // exclude the post we're currently viewing
+    "fields.slug[ne]": excludeSlug,
     order: "-fields.date",
     limit,
     include: 2,
