@@ -13,7 +13,7 @@ const NewsletterAndFooter = () => {
     <section className="relative overflow-hidden">
      
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-        <div className=" rounded-3xl p-0 sm:p-8 md:p-12 sm:shadow-sm">
+        <div className=" rounded-3xl p-0 sm:p-8 md:p-12 border border-gray-200">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <div className="flex items-center gap-2 mb-3">
@@ -30,7 +30,7 @@ const NewsletterAndFooter = () => {
             
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="flex-1 relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 " />
+                <Mail className="absolute left-4 top-1/2 text-neutral-500 -translate-y-1/2 w-5 h-5 z-40" />
                 <input 
                   type="email" 
                   placeholder="Enter your email"

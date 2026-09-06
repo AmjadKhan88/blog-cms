@@ -108,9 +108,9 @@ export default function Home() {
         </section>
       )}
 
-      <section className="pb-20 sm:gap-10 grid grid-cols-12">
+      <section className="pb-20 sm:gap-8 grid grid-cols-12">
 
-        <div className="col-span-12 lg:col-span-9">
+        <div className="col-span-12 lg:col-span-9 bg-white sm:p-5">
           <p className="text-xs font-medium uppercase tracking-widest text-stone mb-6">
             Latest posts
           </p>
