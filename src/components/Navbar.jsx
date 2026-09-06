@@ -1,12 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect} from 'react';
 import { Home, Newspaper, Dumbbell, Cpu, Heart, Search, Menu, X, SquareText } from 'lucide-react';
-
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState('Home');
   const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = [
     { path: '/', name: 'Home', icon: Home },
@@ -19,9 +18,19 @@ export default function Navbar() {
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  const isActivePath = (path) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
+  };
+
+    useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
-    <nav className="border-b border-stone-light bg-paper backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <nav className=" border-b border-stone-light bg-paper backdrop-blur-md sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
@@ -29,17 +38,16 @@ export default function Navbar() {
             <Link to="/" className="font-semibold text-lg lg:text-xl tracking-tight">
               Field<span className="text-[#b3552e]">notes</span>
             </Link>
-
           </div>
 
           <div className="hidden md:flex items-center gap-1">
             {menuItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeItem === item.name;
+              const isActive = isActivePath(item.path);
               return (
                 <button
                   key={item.name}
-                  onClick={() => {setActiveItem(item.name), navigate(item.path)}}
+                  onClick={() => navigate(item.path)}
                   className={`
                     flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
                     transition-all duration-200 ease-out
@@ -58,7 +66,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
-            <button className="p-2 rounded-full hover:bg-slate-100 transition-colors text-slate-600">
+            <button onClick={()=> navigate("/blog")} className="p-2 rounded-full hover:bg-slate-100 transition-colors text-slate-600">
               <Search className="w-5 h-5" />
             </button>
 
@@ -87,12 +95,11 @@ export default function Navbar() {
         <div className="px-4 py-4 space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeItem === item.name;
+            const isActive = isActivePath(item.path);
             return (
               <button
                 key={item.name}
                 onClick={() => {
-                  setActiveItem(item.name);
                   setIsOpen(false);
                   navigate(item.path);
                 }}
@@ -113,9 +120,6 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
-
   );
 }
-
-
 

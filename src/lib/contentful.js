@@ -37,20 +37,20 @@ export async function getPostBySlug(slug) {
   return res.items[0] || null;
 }
 
-export async function getPostsByCategorySlug(categorySlug) {
-
+export async function getPostsByCategorySlug(categorySlug, { skip = 0, limit = 6 } = {}) {
   const category = await getCategoryBySlug(categorySlug);
-  if (!category) return [];
+  if (!category) return { items: [], total: 0 };
 
   const res = await client.getEntries({
     content_type: "post",
     "fields.category.sys.id": category.sys.id,
     order: "-fields.date",
     include: 2,
+    skip,
+    limit,
   });
-  return res.items;
+  return { items: res.items, total: res.total };
 }
-
 export async function searchPostsByTitle(query) {
   const res = await client.getEntries({
     content_type: "post",
@@ -95,18 +95,20 @@ export function optimizeImage(url, { width = 800, quality = 75 } = {}) {
 }
 
 // search and category 
-export async function getFilteredPosts({ query = "", categoryId = "" } = {}) {
+export async function getFilteredPosts({ query = "", categoryId = "", skip = 0, limit = 6 } = {}) {
   const filters = {
     content_type: "post",
     order: "-fields.date",
     include: 2,
+    skip,
+    limit,
   };
 
   if (query) filters["fields.title[match]"] = query;
   if (categoryId) filters["fields.category.sys.id"] = categoryId;
 
   const res = await client.getEntries(filters);
-  return res.items;
+  return { items: res.items, total: res.total };
 }
 
 // related posts

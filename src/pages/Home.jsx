@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getFeaturedPost, getAllPosts, optimizeImage } from "../lib/contentful";
 import PostCard from "../components/PostCard";
-
+import NewsletterAndFooter from "../components/NewsletterAndFooter";
+import Loader from "../components/Loader";
 export default function Home() {
   const [featured, setFeatured] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -29,7 +30,7 @@ export default function Home() {
   }, []);
 
   if (status === "loading") {
-    return <div className="px-6 py-24 text-center text-stone">Loading posts…</div>;
+    return <Loader/>;
   }
 
   if (status === "error") {
@@ -68,7 +69,6 @@ export default function Home() {
         </p>
       </section>
 
-      {/* Featured post */}
       {featured && (
         <section className="mb-16 pb-16 border-b border-stone-light">
           <p className="text-xs font-medium uppercase tracking-widest text-stone mb-4">
@@ -108,7 +108,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* posts */}
       <section className="pb-20 sm:gap-10 grid grid-cols-12">
 
         <div className="col-span-12 lg:col-span-9">
@@ -133,6 +132,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <NewsletterAndFooter/>
     </div>
   );
 }
