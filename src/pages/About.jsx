@@ -36,7 +36,7 @@ export default function About() {
         </p>
         <div className="flex flex-wrap gap-4 text-sm">
           <a
-            href="https://amjad-pro-stack-creations-ov8w.vercel.app"
+            href="https://amjadullah.vercel.app/"
             target="_blank"
             rel="noreferrer"
             className="text-clay hover:underline"

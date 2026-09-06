@@ -41,7 +41,7 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold">
-                BlogFlow
+                CodeBlogs
               </span>
               <div className="h-6 w-px" />
               <span className="text-xs ">Est. 2026</span>

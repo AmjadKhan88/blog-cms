@@ -36,7 +36,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2">
             <Link to="/" className="font-semibold text-lg lg:text-xl tracking-tight">
-              Field<span className="text-[#b3552e]">notes</span>
+              Code<span className="text-[#b3552e]">Blogs</span>
             </Link>
           </div>
 
