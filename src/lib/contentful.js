@@ -9,7 +9,7 @@ const client = createClient({
 export async function getAllPosts() {
   const res = await client.getEntries({
     content_type: "post",
-    order: "-fields.date",
+    // order: "-fields.date",
     include: 2,
     limit: 10,
   });

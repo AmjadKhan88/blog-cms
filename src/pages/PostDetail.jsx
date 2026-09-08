@@ -24,18 +24,14 @@ export default function PostDetail() {
         }
         setPost(data);
         setStatus("done");
-
-        const categoryId = data.fields.category?.sys?.id;
-        if (categoryId) {
-          const relatedPosts = await getRelatedPosts(categoryId, slug);
-          setRelated(relatedPosts);
-        }
+        setRelated(data?.fields?.relatedPosts);
       })
       .catch((err) => {
         console.error("Failed to load post:", err);
         setStatus("error");
       });
   }, [slug]);
+
 
   if (status === "loading") {
     return <div className="px-6 py-24 text-center text-stone">Loading post…</div>;
@@ -58,6 +54,7 @@ export default function PostDetail() {
   const { title, coverImage, content, author, category, date, readingTime } = post.fields;
   const coverUrl = coverImage?.fields?.file?.url;
 
+  
   return (
     <article className="px-6 py-14 max-w-5xl mx-auto">
       {/* Category badge */}
@@ -141,7 +138,7 @@ export default function PostDetail() {
       )}
 
       {/* Related posts */}
-      {related.length > 0 && (
+      {related?.length > 0 && (
         <div className="mt-16 pt-10 border-t border-stone-light">
           <p className="text-xs font-medium uppercase tracking-widest text-stone mb-6">
             Related posts
